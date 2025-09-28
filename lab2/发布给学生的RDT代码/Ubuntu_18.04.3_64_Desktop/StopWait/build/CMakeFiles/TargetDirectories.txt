@@ -1,3 +1,3 @@
-/home/guxiwu/cpp/rdt/StopWait/build/CMakeFiles/rebuild_cache.dir
-/home/guxiwu/cpp/rdt/StopWait/build/CMakeFiles/stop_wait.dir
-/home/guxiwu/cpp/rdt/StopWait/build/CMakeFiles/edit_cache.dir
+/home/rigel/HUST-Computer-Network-Labs/lab2/发布给学生的RDT代码/Ubuntu_18.04.3_64_Desktop/StopWait/build/CMakeFiles/stop_wait.dir
+/home/rigel/HUST-Computer-Network-Labs/lab2/发布给学生的RDT代码/Ubuntu_18.04.3_64_Desktop/StopWait/build/CMakeFiles/edit_cache.dir
+/home/rigel/HUST-Computer-Network-Labs/lab2/发布给学生的RDT代码/Ubuntu_18.04.3_64_Desktop/StopWait/build/CMakeFiles/rebuild_cache.dir

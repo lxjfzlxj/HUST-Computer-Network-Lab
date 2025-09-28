@@ -18,8 +18,8 @@ int main(int argc, char* argv[])
 	pns->init();
 	pns->setRtdSender(ps);
 	pns->setRtdReceiver(pr);
-	pns->setInputFile("/home/guxiwu/cpp/rdt/input.txt");
-	pns->setOutputFile("/home/guxiwu/cpp/rdt/output.txt");
+	pns->setInputFile("/home/rigel/HUST-Computer-Network-Labs/lab2/发布给学生的RDT代码/Ubuntu_18.04.3_64_Desktop/input.txt");
+	pns->setOutputFile("../output.txt");
 
 	pns->start();
 
