@@ -1,7 +1,3 @@
-// StopWait.cpp : 定义控制台应用程序的入口点。
-//
-
-
 #include "Global.h"
 #include "RdtSender.h"
 #include "RdtReceiver.h"
