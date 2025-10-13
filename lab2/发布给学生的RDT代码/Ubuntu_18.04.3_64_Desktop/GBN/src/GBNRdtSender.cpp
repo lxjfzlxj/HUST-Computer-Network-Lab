@@ -26,6 +26,7 @@ bool GBNRdtSender::send(const Message &message) {
         pns->startTimer(SENDER, Configuration::TIME_OUT, pkt.seqnum); // 启动发送方定时器
     }
     expectSequenceNumberSend = (expectSequenceNumberSend + 1) % (1 << SEQNUM_WIDTH);
+    printWindow();
 
     return true;
 } 
@@ -36,7 +37,7 @@ void GBNRdtSender::receive(const Packet &ackPkt) {
         int lastBase = base;
         base = (ackPkt.acknum + 1) % (1 << SEQNUM_WIDTH);
         pUtils->printPacket("发送方正确收到确认", ackPkt);
-        printWindow("（滑动窗口）");
+        printWindow();
         if (base == expectSequenceNumberSend) {
             pns->stopTimer(SENDER, lastBase); // 关闭定时器
         } else {
@@ -50,7 +51,6 @@ void GBNRdtSender::timeoutHandler(int seqNum) {
     pUtils->printPacket("发送方定时器时间到，重发窗口内所有未确认的报文", packets[seqNum]);
     pns->stopTimer(SENDER, seqNum);
     pns->startTimer(SENDER, Configuration::TIME_OUT, base); // 重新启动发送方定时器
-    printWindow("重发");
     if (base <= expectSequenceNumberSend) {
         for (int i = base; i < expectSequenceNumberSend; i++) {
             pns->sendToNetworkLayer(RECEIVER, packets[i]);
@@ -65,17 +65,19 @@ void GBNRdtSender::timeoutHandler(int seqNum) {
     }
 }
 
-void GBNRdtSender::printWindow(const char *description) {
+void GBNRdtSender::printWindow() {
+    printf("滑动窗口：");
     if (base <= expectSequenceNumberSend) {
         for (int i = base; i < expectSequenceNumberSend; i++) {
-            pUtils->printPacket(description, packets[i]);
+            printf("%d, ", packets[i].seqnum);
         }
     } else {
         for (int i = base; i < (1 << SEQNUM_WIDTH); i++) {
-            pUtils->printPacket(description, packets[i]);
+            printf("%d, ", packets[i].seqnum);
         }
         for (int i = 0; i < expectSequenceNumberSend; i++) {
-            pUtils->printPacket(description, packets[i]);
+            printf("%d, ", packets[i].seqnum);
         }
     }
+    puts("");
 }

@@ -15,6 +15,7 @@ public:
     virtual ~SRRdtReceiver();
 
     void receive(const Packet &packet); // 接收报文，将被NetworkService调用
+    void printWindow(); // 打印当前窗口状态
 };
 
 #endif

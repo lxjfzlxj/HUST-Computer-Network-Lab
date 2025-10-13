@@ -35,7 +35,26 @@ void SRRdtReceiver::receive(const Packet &packet) {
                 }
             }
         }
+        printWindow();
     } else {
         pUtils->printPacket("接收方没有正确收到发送方的报文,数据校验错误", packet);
     }
+}
+
+void SRRdtReceiver::printWindow() {
+    printf("接收方滑动窗口（仅显示已接收到报文）：");
+    int rBound = (base + WIN_LEN) % (1 << SEQNUM_WIDTH);
+    if (base <= rBound) {
+        for (int i = base; i < rBound; i++) {
+            if(isReceived[i]) printf("%d, ", packets[i].seqnum);
+        }
+    } else {
+        for (int i = base; i < (1 << SEQNUM_WIDTH); i++) {
+            if(isReceived[i]) printf("%d, ", packets[i].seqnum);
+        }
+        for (int i = 0; i < rBound; i++) {
+            if(isReceived[i]) printf("%d, ", packets[i].seqnum);
+        }
+    }
+    puts("");
 }

@@ -26,7 +26,7 @@ bool TCPRdtSender::send(const Message &message) {
         pns->startTimer(SENDER, Configuration::TIME_OUT, pkt.seqnum); // 启动发送方定时器
     }
     expectSequenceNumberSend = (expectSequenceNumberSend + 1) % (1 << SEQNUM_WIDTH);
-
+    printWindow();
     return true;
 } 
 
@@ -37,7 +37,7 @@ void TCPRdtSender::receive(const Packet &ackPkt) {
             int lastBase = base;
             base = (ackPkt.acknum + 1) % (1 << SEQNUM_WIDTH);
             pUtils->printPacket("发送方正确收到确认", ackPkt);
-            printWindow("（滑动窗口）");
+            printWindow();
             if (base == expectSequenceNumberSend) {
                 pns->stopTimer(SENDER, lastBase); // 关闭定时器
             } else {
@@ -67,17 +67,19 @@ void TCPRdtSender::timeoutHandler(int seqNum) {
     pns->sendToNetworkLayer(RECEIVER, packets[seqNum]);
 }
 
-void TCPRdtSender::printWindow(const char *description) {
+void TCPRdtSender::printWindow() {
+    printf("滑动窗口：");
     if (base <= expectSequenceNumberSend) {
         for (int i = base; i < expectSequenceNumberSend; i++) {
-            pUtils->printPacket(description, packets[i]);
+            printf("%d, ", packets[i].seqnum);
         }
     } else {
         for (int i = base; i < (1 << SEQNUM_WIDTH); i++) {
-            pUtils->printPacket(description, packets[i]);
+            printf("%d, ", packets[i].seqnum);
         }
         for (int i = 0; i < expectSequenceNumberSend; i++) {
-            pUtils->printPacket(description, packets[i]);
+            printf("%d, ", packets[i].seqnum);
         }
     }
+    puts("");
 }

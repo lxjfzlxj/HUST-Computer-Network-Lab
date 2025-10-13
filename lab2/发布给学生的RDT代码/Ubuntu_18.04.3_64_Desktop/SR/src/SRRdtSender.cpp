@@ -26,7 +26,7 @@ bool SRRdtSender::send(const Message &message) {
     pns->sendToNetworkLayer(RECEIVER, pkt);
     pns->startTimer(SENDER, Configuration::TIME_OUT, pkt.seqnum); // 启动发送方定时器
     expectSequenceNumberSend = (expectSequenceNumberSend + 1) % (1 << SEQNUM_WIDTH);
-
+    printWindow();
     return true;
 }
 
@@ -35,14 +35,14 @@ void SRRdtSender::receive(const Packet &ackPkt) {
     if (checkSum == ackPkt.checksum && (expectSequenceNumberSend >= base && base <= ackPkt.acknum && ackPkt.acknum < expectSequenceNumberSend || expectSequenceNumberSend < base && (ackPkt.acknum >= base || ackPkt.acknum < expectSequenceNumberSend))) {
         isACK[ackPkt.acknum] = true;
         pUtils->printPacket("发送方正确收到确认", ackPkt);
+        pns->stopTimer(SENDER, ackPkt.acknum);
         if (ackPkt.acknum == base) {
             while (isACK[base]) {
                 isACK[base] = false;
-                pns->stopTimer(SENDER, base);
                 base = (base + 1) % (1 << SEQNUM_WIDTH);
             }
         }
-        printWindow("（滑动窗口）");
+        printWindow();
     }
 }
 
@@ -50,21 +50,22 @@ void SRRdtSender::timeoutHandler(int seqNum) {
     pUtils->printPacket("发送方定时器时间到，重发该报文", packets[seqNum]);
     pns->stopTimer(SENDER, seqNum);
     pns->startTimer(SENDER, Configuration::TIME_OUT, seqNum); // 重新启动发送方定时器
-    printWindow("重发");
     pns->sendToNetworkLayer(RECEIVER, packets[seqNum]);
 }
 
-void SRRdtSender::printWindow(const char *description) {
+void SRRdtSender::printWindow() {
+    printf("发送方滑动窗口：");
     if (base <= expectSequenceNumberSend) {
         for (int i = base; i < expectSequenceNumberSend; i++) {
-            pUtils->printPacket(description, packets[i]);
+            printf("%d, ", packets[i].seqnum);
         }
     } else {
         for (int i = base; i < (1 << SEQNUM_WIDTH); i++) {
-            pUtils->printPacket(description, packets[i]);
+            printf("%d, ", packets[i].seqnum);
         }
         for (int i = 0; i < expectSequenceNumberSend; i++) {
-            pUtils->printPacket(description, packets[i]);
+            printf("%d, ", packets[i].seqnum);
         }
     }
+    puts("");
 }
