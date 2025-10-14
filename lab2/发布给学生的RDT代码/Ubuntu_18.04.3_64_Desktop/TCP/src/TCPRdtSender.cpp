@@ -69,16 +69,17 @@ void TCPRdtSender::timeoutHandler(int seqNum) {
 
 void TCPRdtSender::printWindow() {
     printf("滑动窗口：");
-    if (base <= expectSequenceNumberSend) {
-        for (int i = base; i < expectSequenceNumberSend; i++) {
-            printf("%d, ", packets[i].seqnum);
+    int rBound = (base + WIN_LEN) % (1 << SEQNUM_WIDTH);
+    if (base <= rBound) {
+        for (int i = base; i < rBound; i++) {
+            printf("%d, ", i);
         }
     } else {
         for (int i = base; i < (1 << SEQNUM_WIDTH); i++) {
-            printf("%d, ", packets[i].seqnum);
+            printf("%d, ", i);
         }
-        for (int i = 0; i < expectSequenceNumberSend; i++) {
-            printf("%d, ", packets[i].seqnum);
+        for (int i = 0; i < rBound; i++) {
+            printf("%d, ", i);
         }
     }
     puts("");

@@ -42,8 +42,21 @@ void SRRdtReceiver::receive(const Packet &packet) {
 }
 
 void SRRdtReceiver::printWindow() {
-    printf("接收方滑动窗口（仅显示已接收到报文）：");
+    printf("接收方滑动窗口：");
     int rBound = (base + WIN_LEN) % (1 << SEQNUM_WIDTH);
+    if (base <= rBound) {
+        for (int i = base; i < rBound; i++) {
+            printf("%d, ", i);
+        }
+    } else {
+        for (int i = base; i < (1 << SEQNUM_WIDTH); i++) {
+            printf("%d, ", i);
+        }
+        for (int i = 0; i < rBound; i++) {
+            printf("%d, ", i);
+        }
+    }
+    printf("其中已接收到的报文：");
     if (base <= rBound) {
         for (int i = base; i < rBound; i++) {
             if(isReceived[i]) printf("%d, ", packets[i].seqnum);
