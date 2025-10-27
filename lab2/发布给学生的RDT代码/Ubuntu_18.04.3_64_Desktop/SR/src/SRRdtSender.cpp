@@ -68,5 +68,19 @@ void SRRdtSender::printWindow() {
             printf("%d, ", i);
         }
     }
+    printf("下一个发送序号为 %d, ", expectSequenceNumberSend);
+    printf("其中已收到 ACK 的报文：");
+    if (base <= rBound) {
+        for (int i = base; i < rBound; i++) {
+            if (isACK[i]) printf("%d, ", i);
+        }
+    } else {
+        for (int i = base; i < (1 << SEQNUM_WIDTH); i++) {
+            if (isACK[i]) printf("%d, ", i);
+        }
+        for (int i = 0; i < rBound; i++) {
+            if (isACK[i]) printf("%d, ", i);
+        }
+    }
     puts("");
 }

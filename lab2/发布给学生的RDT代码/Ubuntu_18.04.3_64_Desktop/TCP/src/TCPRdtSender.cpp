@@ -82,5 +82,5 @@ void TCPRdtSender::printWindow() {
             printf("%d, ", i);
         }
     }
-    puts("");
+    printf("下一个发送序号为 %d\n", expectSequenceNumberSend);
 }
