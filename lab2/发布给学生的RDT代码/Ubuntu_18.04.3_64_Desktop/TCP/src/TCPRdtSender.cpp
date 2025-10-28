@@ -46,9 +46,10 @@ void TCPRdtSender::receive(const Packet &ackPkt) {
             }
             repetitiveAckCount = 1; // 重置重复ACK计数
         }
-        else if (expectSequenceNumberSend == (base - 1 + (1 << SEQNUM_WIDTH)) % (1 << SEQNUM_WIDTH)) {
+        else if (ackPkt.acknum == (base - 1 + (1 << SEQNUM_WIDTH)) % (1 << SEQNUM_WIDTH)) {
             repetitiveAckCount++;
             pUtils->printPacket("发送方收到重复ACK", ackPkt);
+            // printf("重复ACK计数：%d\n", repetitiveAckCount);
             if (repetitiveAckCount == 3 && base != expectSequenceNumberSend) {
                 pUtils->printPacket("发送方收到三个重复ACK，重发窗口内第一个未确认的报文", packets[base]);
                 pns->sendToNetworkLayer(RECEIVER, packets[base]);
