@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36518.9 d17.14
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WebServer", "WebServer\WebServer.vcxproj", "{313ADC3D-58A6-42F0-BF06-1FD9C4058FFF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{313ADC3D-58A6-42F0-BF06-1FD9C4058FFF}.Debug|x64.ActiveCfg = Debug|x64
+		{313ADC3D-58A6-42F0-BF06-1FD9C4058FFF}.Debug|x64.Build.0 = Debug|x64
+		{313ADC3D-58A6-42F0-BF06-1FD9C4058FFF}.Debug|x86.ActiveCfg = Debug|Win32
+		{313ADC3D-58A6-42F0-BF06-1FD9C4058FFF}.Debug|x86.Build.0 = Debug|Win32
+		{313ADC3D-58A6-42F0-BF06-1FD9C4058FFF}.Release|x64.ActiveCfg = Release|x64
+		{313ADC3D-58A6-42F0-BF06-1FD9C4058FFF}.Release|x64.Build.0 = Release|x64
+		{313ADC3D-58A6-42F0-BF06-1FD9C4058FFF}.Release|x86.ActiveCfg = Release|Win32
+		{313ADC3D-58A6-42F0-BF06-1FD9C4058FFF}.Release|x86.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {9F7E0220-DDE0-4767-9BE8-E06B4F3780C9}
+	EndGlobalSection
+EndGlobal
