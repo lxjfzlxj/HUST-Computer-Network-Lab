@@ -62,15 +62,16 @@ std::string constructResponse(int returnCode, std::string contentType, std::stri
 		break;
 	case 405:
 		resp += "405 Method Not Allowed\r\n";
-		content = "Method Not Allowed";
+		break;
 	default:
 		throw std::runtime_error("invalid return code");
 	}
+	resp += "Server: MyCppServer/1.0\r\n";
 	resp += "Content-Type: " + contentType + "\r\n";
-	if (returnCode == 200) {
-		resp += "Content-Length: " + std::to_string(content.size()) + "\r\n";
-	}
-	resp += "Connection: close\r\n\r\n";
+	resp += "Content-Length: " + std::to_string(content.size()) + "\r\n";
+	resp += "Connection: close\r\n";
+	resp += "Cache-Control: no-cache\r\n";
+	resp += "Access-Control-Allow-Origin: *\r\n\r\n";
 	resp += content;
 	return resp;
 }
