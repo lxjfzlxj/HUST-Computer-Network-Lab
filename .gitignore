@@ -3,6 +3,8 @@ build/
 output.txt
 result.txt
 .vscode
+*.exe
+*.ptl
 
 
 ## Ignore Visual Studio temporary files, build results, and
